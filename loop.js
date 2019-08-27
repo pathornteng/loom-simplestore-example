@@ -11,7 +11,7 @@ const privateKeyStr = fs.readFileSync('./private_key', 'utf-8')
 const privateKey = CryptoUtils.B64ToUint8Array(privateKeyStr)
 const publicKey = CryptoUtils.publicKeyFromPrivateKey(privateKey)
 
-var simpleTestJSON = JSON.parse(fs.readFileSync('./build/contracts/SimpleTestContract.json', 'utf8'));
+var simpleStoreJson = JSON.parse(fs.readFileSync('./build/contracts/SimpleLoop.json', 'utf8'));
 
 var client = new Client(conf.chainId, conf.url+"/websocket", conf.url+"/queryws")
 client.on('error', msg => {
@@ -29,9 +29,9 @@ const from = LocalAddress.fromPublicKey(publicKey).toString()
 // Instantiate web3 client using LoomProvider
 const web3 = new Web3(loomProvider)
 
-const contractAddress = conf.contractAddress
+const contractAddress = conf.loopAddress
 // Instantiate the contract and let it ready to be used
-const contract = new web3.eth.Contract(simpleTestJSON.abi, contractAddress, {from});
+const contract = new web3.eth.Contract(simpleStoreJson.abi, contractAddress, {from});
 //console.log(contract)
 function wait(ms){
    var start = new Date().getTime();
@@ -40,40 +40,12 @@ function wait(ms){
      end = new Date().getTime();
   }
 }
-async function hello(){
-  var d = new Date();
-  var n = d.getTime();
-  //contract.methods.set(n).send().then().catch(function(err) { console.log("Should not have this 1", err) })
-  try {
-        await contract.methods.set(1111).send()
-  } catch(err) {
-    console.log("should not revert", err)
-  }
-  try {
-        await contract.methods.err().send()
-  } catch(err) {
-        console.log(err)
-  }
-  try {
-        await contract.methods.set(3333).send()
-  } catch(err) {
-    console.log("should not revert", err)
-  }
-  //contract.methods.set(n+1).send().then().catch(function(err) { console.log("Should not have this 2", err) })
-  // send three more successful txs without await
-  //contract.methods.set(4444).send().then(tx => console.log(tx) ).catch(function(e) { console.log(err) })
-  //contract.methods.set(5555).send().then(tx => console.log(tx) ).catch(function(e) { console.log(err) })
-  //contract.methods.set(6666).send().then(tx => console.log(tx) ).catch(function(e) { console.log(err) })
-  
-  console.log("Send Txs")
-  timeout()
-};
-
-function timeout() {
-  setTimeout(hello, 1000);
-}
 
 (async function (){
-  timeout()
+  try {
+    await contract.methods.loop().send()
+  } catch(err) {
+    console.log("THIS")
+    console.log(err)
+  }
 })();
-

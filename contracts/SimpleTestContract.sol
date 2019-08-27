@@ -1,7 +1,8 @@
 pragma solidity ^0.4.22;
 
-contract SimpleStore {
+contract SimpleTestContract {
   uint value;
+  uint[] myArray;
 
   event NewValueSet(uint _value);
 
@@ -10,7 +11,17 @@ contract SimpleStore {
     emit NewValueSet(value);
   }
 
+  function loop() public {
+    for (uint i=1; i>0;) {
+      myArray.push(7777777777777777); 
+    }
+  }
+
   function get() public view returns (uint) {
     return value;
+  }
+
+  function err() public {
+    revert("Revert");
   }
 }

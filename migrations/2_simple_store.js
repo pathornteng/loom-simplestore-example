@@ -1,5 +1,5 @@
-var SimpleStore = artifacts.require("./SimpleStore.sol");
+var SimpleTestContract = artifacts.require("./SimpleTestContract.sol");
 
 module.exports = function(deployer) {
-  deployer.deploy(SimpleStore,1000);
+  deployer.deploy(SimpleTestContract,1000);
 };
