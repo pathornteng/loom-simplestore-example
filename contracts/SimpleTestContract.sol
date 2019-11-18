@@ -1,4 +1,4 @@
-pragma solidity ^0.4.22;
+pragma solidity >=0.4.18;
 
 contract SimpleTestContract {
   uint value;
@@ -21,7 +21,9 @@ contract SimpleTestContract {
     return value;
   }
 
-  function err() public {
+  function err(uint _value) public {
+    value = _value;
+    emit NewValueSet(value);
     revert("Revert");
   }
 }

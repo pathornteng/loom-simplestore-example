@@ -28,7 +28,7 @@ function toHexString(byteArray) {
 }
 
 var simpleTestJSON = JSON.parse(
-  fs.readFileSync("./build/contracts/StoreTestContract.json", "utf8")
+  fs.readFileSync("./build/contracts/OuterEmitter.json", "utf8")
 );
 
 var client = new Client(
@@ -50,10 +50,10 @@ const setupMiddlewareFn = function (client, privateKey) {
 var loomProvider = new LoomProvider(client, privateKey, setupMiddlewareFn);
 
 // The address for the caller of the function
+
 const from = LocalAddress.fromPublicKey(publicKey).toString();
 // Instantiate web3 client using LoomProvider
 const web3 = new Web3(loomProvider);
-const web3js = new Web3(new Web3.providers.HttpProvider("http://127.0.0.1:46658/eth"));
 
 const contractAddress = conf.contractAddress;
 // Instantiate the contract and let it ready to be used
@@ -61,37 +61,19 @@ const contract = new web3.eth.Contract(simpleTestJSON.abi, contractAddress, {
   from
 });
 
-function wait(ms) {
-  var start = new Date().getTime();
-  var end = start;
-  while (end < start + ms) {
-    end = new Date().getTime();
-  }
-}
-var total = 1;
 async function hello() {
-  try {
-    console.log(await web3js.eth.getPastLogs({
-      address: "0x7262d4c97c7B93937E4810D289b7320e9dA82857",
-    }))
-    //await contract.methods.close().send()
-    // const start = total;
-    // for(var i=start; i<start + 10; i++){
-    //   total++
-    //   tx = contract.methods.addUser(i, 100, makeid(50)).send()
-    // }
-    // wait(1000)
-    // for(var i=start; i<start + 10; i++) {
-    //   const value = await contract.methods.getUser(i).call()
-    //   console.log(value)
-    
-    // }
-    // wait(5000)
-    
-  } catch (err) {
-    console.log("should not revert", err);
-  }
-  timeout();
+  var d = new Date();
+  var n = d.getTime();
+
+  contract.events.allEvents()
+    .on('data', (event) => {
+      console.log(event);
+    })
+
+  console.log(await contract.methods.setInner('0x09DAD403d85f4d1D360386E8f4ca1774c24476c5').send())
+  console.log(await contract.methods.sendEvent(1).send())
+
+  console.log("Send Txs");
 }
 
 function timeout() {
@@ -101,14 +83,3 @@ function timeout() {
 (async function () {
   timeout();
 })();
-
-
-function makeid(length) {
-  var result           = '';
-  var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-  var charactersLength = characters.length;
-  for ( var i = 0; i < length; i++ ) {
-     result += characters.charAt(Math.floor(Math.random() * charactersLength));
-  }
-  return result;
-}

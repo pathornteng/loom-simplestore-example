@@ -7,8 +7,11 @@
     "test": "test"
   },
   "dependencies": {
-    "loom-js": "^1.55.0",
-    "loom-truffle-provider": "^0.13.0"
+    "ethereumjs-tx": "^2.1.1",
+    "js-sha3": "^0.8.0",
+    "loom-js": "^1.60.1",
+    "loom-truffle-provider": "^0.13.0",
+    "zeppelin-solidity": "^1.12.0"
   },
   "devDependencies": {},
   "scripts": {

@@ -13,22 +13,12 @@ const {
 const fs = require("fs");
 const conf = require("./config");
 
-//const privateKeyStr = fs.readFileSync("./private_key", "utf-8");
-//const privateKey = CryptoUtils.B64ToUint8Array(privateKeyStr);
-//const publicKey = CryptoUtils.publicKeyFromPrivateKey(privateKey);
 const privateKey = CryptoUtils.generatePrivateKey()
+console.log(privateKey)
 const publicKey = CryptoUtils.publicKeyFromPrivateKey(privateKey)
 
-const EthereumTx = require('ethereumjs-tx').Transaction
-
-function toHexString(byteArray) {
-  return Array.from(byteArray, function(byte) {
-    return ('0' + (byte & 0xFF).toString(16)).slice(-2);
-  }).join('')
-}
-
 var simpleTestJSON = JSON.parse(
-  fs.readFileSync("./build/contracts/StoreTestContract.json", "utf8")
+  fs.readFileSync("./build/contracts/LoadTestContract.json", "utf8")
 );
 
 var client = new Client(
@@ -53,7 +43,6 @@ var loomProvider = new LoomProvider(client, privateKey, setupMiddlewareFn);
 const from = LocalAddress.fromPublicKey(publicKey).toString();
 // Instantiate web3 client using LoomProvider
 const web3 = new Web3(loomProvider);
-const web3js = new Web3(new Web3.providers.HttpProvider("http://127.0.0.1:46658/eth"));
 
 const contractAddress = conf.contractAddress;
 // Instantiate the contract and let it ready to be used
@@ -71,35 +60,29 @@ function wait(ms) {
 var total = 1;
 async function hello() {
   try {
-    console.log(await web3js.eth.getPastLogs({
-      address: "0x7262d4c97c7B93937E4810D289b7320e9dA82857",
-    }))
-    //await contract.methods.close().send()
-    // const start = total;
-    // for(var i=start; i<start + 10; i++){
-    //   total++
-    //   tx = contract.methods.addUser(i, 100, makeid(50)).send()
-    // }
-    // wait(1000)
-    // for(var i=start; i<start + 10; i++) {
-    //   const value = await contract.methods.getUser(i).call()
-    //   console.log(value)
+   for(var i=0; i<30; i++) {
+     contract.methods.storageConsumption(300).send().then(tx => {
+       console.log(tx)
+     })
+   } 
+   //console.time("MyTimer");
+   //const tx = await contract.methods.storageConsumption(300).send()
+   //console.timeEnd("MyTimer");
+   //console.log(tx)
+  
     
-    // }
-    // wait(5000)
-    
-  } catch (err) {
+  } catch(err) {
     console.log("should not revert", err);
   }
   timeout();
 }
 
 function timeout() {
-  setTimeout(hello, 1000);
+  setTimeout(hello,5000);
 }
 
 (async function () {
-  timeout();
+  await hello();
 })();
 
 
