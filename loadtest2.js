@@ -14,7 +14,6 @@ const fs = require("fs");
 const conf = require("./config");
 
 const privateKey = CryptoUtils.generatePrivateKey()
-console.log(privateKey)
 const publicKey = CryptoUtils.publicKeyFromPrivateKey(privateKey)
 
 var simpleTestJSON = JSON.parse(
@@ -60,8 +59,8 @@ function wait(ms) {
 var total = 1;
 async function hello() {
   try {
-   for(var i=0; i<30; i++) {
-     contract.methods.storageConsumption(300).send().then(tx => {
+   for(var i=0; i<10; i++) {
+     contract.methods.storageConsumption(200).send().then(tx => {
        console.log(tx)
      })
    } 

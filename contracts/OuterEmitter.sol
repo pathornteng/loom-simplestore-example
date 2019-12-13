@@ -12,5 +12,7 @@ contract OuterEmitter {
     function sendEvent(uint i) public {
         innerEmitter.sendEvent(i);
     }
+    function err(uint _value) public {
+        revert("Revert");
+    }
 }
-

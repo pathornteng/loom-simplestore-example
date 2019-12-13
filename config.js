@@ -1,5 +1,5 @@
 module.exports = {
-    chainId: "default",
-    url: "http://127.0.0.1:46658",
-    contractAddress: "0xcc72490fd54c9a37D3aB33cEB03360A1A01920e1",
+    chainId: "extdev-plasma-us1",
+    url: "http://35.198.243.13:46658",
+    contractAddress: "0x7D19A323D6b77C10D22505B8E039E489141A647B",
 }

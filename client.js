@@ -28,7 +28,7 @@ function toHexString(byteArray) {
 }
 
 var simpleTestJSON = JSON.parse(
-  fs.readFileSync("./build/contracts/StoreTestContract.json", "utf8")
+  fs.readFileSync("./build/contracts/SimpleTestContract.json", "utf8")
 );
 
 var client = new Client(
@@ -71,9 +71,12 @@ function wait(ms) {
 var total = 1;
 async function hello() {
   try {
-    console.log(await web3js.eth.getPastLogs({
-      address: "0x7262d4c97c7B93937E4810D289b7320e9dA82857",
-    }))
+    var value = await contract.methods.get().call()
+    console.log(value)
+    //await contract.methods.err(5).send()
+    contract.methods.set(7555577).send().then()
+    let tx = await contract.methods.err(20).send()
+    console.log(tx)
     //await contract.methods.close().send()
     // const start = total;
     // for(var i=start; i<start + 10; i++){
@@ -91,7 +94,7 @@ async function hello() {
   } catch (err) {
     console.log("should not revert", err);
   }
-  timeout();
+  //timeout();
 }
 
 function timeout() {

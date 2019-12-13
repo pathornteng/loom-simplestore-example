@@ -32,13 +32,20 @@ const contract = new web3.eth.Contract(simpleStoreJson.abi, contractAddress, {fr
 //console.log(contract)
 (async function (){
   try {
-    //await contract.methods.err(5).send()
-    const tx = await contract.methods.set(33336).send()
-    console.log(tx)
-    //const count = await web3.eth.getTransaction(tx.transactionHash)
-    //console.log(count)
-    const value = await contract.methods.get().call()
+    var value = await contract.methods.get().call()
     console.log(value)
+    //await contract.methods.err(5).send()
+    await contract.methods.set(6666).send()
+    var value = await contract.methods.get().call()
+    console.log(value)
+    //let tx = await contract.methods.err(20).send()
+    //console.log(tx)
+    // const tx = await contract.methods.set(234).send()
+    // console.log(tx)
+    // //const count = await web3.eth.getTransaction(tx.transactionHash)
+    // //console.log(count)
+    // value = await contract.methods.get().call()
+    // console.log(value)
   } catch(err) {
     console.log(err)
   }
