@@ -14,7 +14,7 @@
     "ethereumjs-tx": "^2.1.1",
     "hex64": "^0.4.0",
     "js-sha3": "^0.8.0",
-    "json-bigint": "^0.3.0",
+    "json-bigint": "^1.0.0",
     "loom-js": "^1.60.1",
     "loom-truffle-provider": "^0.13.0",
     "request-promise": "^4.2.5",
